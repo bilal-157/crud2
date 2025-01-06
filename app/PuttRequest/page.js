@@ -1,9 +1,9 @@
 import React from 'react'
-import Form from "@/components/Form"
+import FormID from "@/components/FormID"
 const page = () => {
   return (
     <div>
-      <Form/>
+        <FormID/>
     </div>
   )
 }
