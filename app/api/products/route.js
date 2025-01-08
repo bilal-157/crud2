@@ -14,12 +14,20 @@ export async function handler(req) {
                 return NextResponse.json({ result: data });
 
             case 'POST':
+                try {
+                    
                 const body = await req.json(); // Parse JSON body
                 const newProduct = new Products(body);
                 const savedProduct = await newProduct.save();
                 return NextResponse.json({ result: savedProduct, message: 'Product created successfully!' });
 
-            case 'PUT':
+                    
+                } catch (error) {
+                    console.log("Error",error)
+                }
+
+
+                case 'PUT':
                 const bodyForPut = await req.json(); // Parse JSON body for PUT
                 const { id, email, password } = bodyForPut;
 
@@ -49,6 +57,35 @@ export async function handler(req) {
                     result: updatedProduct,
                     message: 'Product updated successfully!',
                 });
+
+                //DELETE API 
+                case 'DELETE':
+                    const bodyForDelete = await req.json(); // Parse JSON body for DELETE request
+                    const { ID } = bodyForDelete;
+                
+                    // Ensure ID is provided to delete
+                    if (!ID) {
+                        return NextResponse.json(
+                            { error: 'ID is required to delete the product.' },
+                            { status: 400 }
+                        );
+                    }
+                
+                    // Delete the product by ID
+                    const deletedProduct = await Products.findByIdAndDelete(ID); // Use findByIdAndDelete
+                
+                    if (!deletedProduct) {
+                        return NextResponse.json(
+                            { error: 'No product found with the given ID.' },
+                            { status: 404 }
+                        );
+                    }
+                
+                    return NextResponse.json({
+                        result: deletedProduct,
+                        message: 'Product deleted successfully!',
+                    });
+                
             default:
                 return NextResponse.json({ error: 'Method not allowed' }, { status: 405 });
         }
@@ -57,4 +94,4 @@ export async function handler(req) {
     }
 }
 
-export { handler as GET, handler as POST, handler as PUT };
+export { handler as GET, handler as POST, handler as PUT,handler as DELETE };
