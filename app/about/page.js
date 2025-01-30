@@ -1,9 +1,9 @@
 import React from 'react'
-import DeleteForm from "@/components/DeleteForm"
+import Todo from "@/components/Todo"
 const page = () => {
   return (
     <div>
-        <DeleteForm/>
+        <Todo/>
     </div>
   )
 }
