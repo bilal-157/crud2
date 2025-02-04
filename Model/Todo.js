@@ -12,7 +12,11 @@ const TodoSchema = new mongoose.Schema({
   createdAt: {
     type: Date,
     default: Date.now
-  }
+  },
+  status: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const Todo = mongoose.models.Todo || mongoose.model("Todo", TodoSchema);
